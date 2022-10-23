@@ -141,7 +141,7 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
     - name: Run spotbugs
-      run: mvn -Dheadless compile spotbugs:check
+      run: mvn -Dheadless=true compile spotbugs:check
 
   shellcheck:
     runs-on: ubuntu-latest
@@ -172,8 +172,8 @@ jobs:
       run: |
         if [ "$GITHUB_REF" == "refs/heads/ci-testing" ]; then
           podman tag \
-          ${{ env.CRYOSTAT_IMG }}:$IMAGE_VERSION \
-          ${{ env.CRYOSTAT_IMG }}:latest
+          ${{ env.CRYOSTAT_IMG }}:latest \
+          ${{ env.CRYOSTAT_IMG }}:$IMAGE_VERSION
           echo "::set-output name=tags::$IMAGE_VERSION latest"
         else
           echo "::set-output name=tags::$IMAGE_VERSION"
